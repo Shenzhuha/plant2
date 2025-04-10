@@ -24,8 +24,6 @@ def save_data(data):
         json.dump(data, f)
 
 def get_base_url():
-    # Streamlit Cloud 会自动分配 URL，可以通过环境变量或请求上下文获取
-    # 这里使用占位符，实际部署后会动态生成
     return st.get_option("server.baseUrlPath") or "https://your-app-name.streamlit.app"
 
 def generate_qr_code(record_id):
@@ -108,7 +106,7 @@ def main():
                     data['records'].append(new_record)
                     save_data(data)
                     st.success("数据已成功添加!")
-                    st.experimental_rerun()
+                    st.rerun()  # 替换 st.experimental_rerun()
 
     with col2:
         st.header("记录列表")
@@ -143,7 +141,7 @@ def main():
                 for r in data['records']
             ])
             csv = df.to_csv(index=False)
-            st.sidebar.download_button("下载CSV文件", csv, "plant_data.csv", "textcsv", key='download-csv')
+            st.sidebar.download_button("下载CSV文件", csv, "plant_data.csv", "text/csv", key='download-csv')
         else:
             st.sidebar.info("暂无数据可导出")
 
