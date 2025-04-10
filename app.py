@@ -24,11 +24,13 @@ def save_data(data):
         json.dump(data, f)
 
 def get_base_url():
-    return st.get_option("server.baseUrlPath") or "https://your-app-name.streamlit.app"
+    # 替换为你的 Streamlit Cloud 实际 URL
+    return "https://your-username-plant-tracker.streamlit.app"  # 请替换为实际 URL
 
 def generate_qr_code(record_id):
     base_url = get_base_url()
     qr_url = f"{base_url}/?record_id={record_id}"
+    st.write(f"Generated QR URL: {qr_url}")  # 调试用，可删除
     qr = qrcode.QRCode(version=1, box_size=10, border=4)
     qr.add_data(qr_url)
     qr.make(fit=True)
@@ -106,7 +108,7 @@ def main():
                     data['records'].append(new_record)
                     save_data(data)
                     st.success("数据已成功添加!")
-                    st.rerun()  # 替换 st.experimental_rerun()
+                    st.rerun()
 
     with col2:
         st.header("记录列表")
